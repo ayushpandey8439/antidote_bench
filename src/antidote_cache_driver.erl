@@ -14,7 +14,7 @@ mode() -> {ok, {rate, max}}.
 %% Number of concurrent workers
 concurrent_workers() -> {ok, 100}.
 %% Test duration (minutes)
-duration() -> {ok, 1}.
+duration() -> {ok, 10}.
 %% Operations (and associated mix)
 operations() ->
     {ok, [{update, 10},
