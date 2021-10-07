@@ -1,0 +1,5 @@
+## Name of the node
+-name runner@antidote-loadgen1.local
+
+## Cookie for distributed erlang
+-setcookie antidote
