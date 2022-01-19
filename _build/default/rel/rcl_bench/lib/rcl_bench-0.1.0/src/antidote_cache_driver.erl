@@ -12,13 +12,13 @@
 
 mode() -> {ok, {rate, max}}.
 %% Number of concurrent workers
-concurrent_workers() -> {ok, 100}.
+concurrent_workers() -> {ok, 400}.
 %% Test duration (minutes)
-duration() -> {ok, 10}.
+duration() -> {ok, 5}.
 %% Operations (and associated mix)
 operations() ->
-    {ok, [{update, 10},
-	  {read, 80}
+    {ok, [{read, 80},
+			{update, 20}
           ]}.
 
 %% Base test output directory
@@ -26,16 +26,17 @@ test_dir() -> {ok, "tests"}.
 
 %% Key generators
 %% {uniform_int, N} - Choose a uniformly distributed integer between 0 and N
-key_generator() -> {ok, {pareto_int, 10}}.
+key_generator() -> {ok, {pareto_int, 1000}}.
 
 %% Value generators
 %% {fixed_bin, N} - Fixed size binary blob of N bytes
 value_generator() -> {ok, {fixed_bin, 100}}.
 
+
 random_algorithm() -> {ok, exsss}.
 random_seed() -> {ok, {1,4,3}}.
 
-shutdown_on_error() -> false.
+shutdown_on_error() -> true.
 
 
 
@@ -43,7 +44,7 @@ shutdown_on_error() -> false.
 %% Benchmark implementation
 
 new(Id) ->
-	Node = list_to_atom("antidote@antidote-dc1.local"),
+	Node = list_to_atom("antidote@192.168.1.4"),
 	State = #{id => Id, node => Node, module=> antidote},
     {ok, State}.
 
@@ -52,16 +53,16 @@ run(update, KeyGen, _ValueGen, #{node:=Node, module:=Mod} = State) ->
 	Type = antidote_crdt_counter_pn,
 	Object = {Key, Type},
 	Update = {Object, increment, 1},
-	RESULT = rpc:call(Node, Mod, update_objects, [ignore, [], [Update]]),
-	%io:format("Update Result ~p ~n",[RESULT]),
+	_RESULT = rpc:call(Node, Mod, update_objects, [ignore, [], [Update]]),
+	io:format("."),
      {ok, State};
 
 run(read, KeyGen, _ValueGen,  #{node:=Node, module:=Mod} = State) ->
 	Key = list_to_atom(integer_to_list(KeyGen())),
    	Type = antidote_crdt_counter_pn,
         Object = {Key, Type},
-	RESULT = rpc:call(Node, Mod, read_objects, [ignore, [], [Object]]),
-	%io:format("Read Result ~p ~n",[RESULT]),
+	_RESULT = rpc:call(Node, Mod, read_objects, [ignore, [], [Object]]),
+	io:format("."),
 	{ok, State}.
 
 terminate(_, State) ->
