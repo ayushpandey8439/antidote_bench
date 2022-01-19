@@ -8,9 +8,9 @@
   random_seed/0, shutdown_on_error/0, crash_is_recoverable/0]).
 % generic config
 mode() -> {ok, {rate, max}}.
-concurrent_workers() -> {ok, 1}.
+concurrent_workers() -> {ok, 40}.
 duration() -> {ok, 1}.
-operations() -> {ok, [{update_only_txn, 1}, {read_only_txn, 1}]}.
+operations() -> {ok, [{update_only_txn, 2}, {read_only_txn, 8}]}.
 %operations() -> {ok, [{txn, 1}]}.
 test_dir() -> {ok, "tests"}.
 key_generator() -> {ok, {uniform_int, 100000}}.
