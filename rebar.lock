@@ -1,1 +1,11 @@
-[].
+{"1.2.0",
+[{<<"antidote_pb_codec">>,{pkg,<<"antidote_pb_codec">>,<<"0.1.2">>},1},
+ {<<"antidotec_pb">>,{pkg,<<"antidotec_pb">>,<<"0.2.9">>},0}]}.
+[
+{pkg_hash,[
+ {<<"antidote_pb_codec">>, <<"ECF51F08EE1FEE0D6E82D1B4AE68811A89660A3D65DB90694A84275683AEF106">>},
+ {<<"antidotec_pb">>, <<"40CD2A0A5F63284E6BB46C84B9D806A7682C79117CFC96154082A4C80759DD01">>}]},
+{pkg_hash_ext,[
+ {<<"antidote_pb_codec">>, <<"B8F655B5C2D074DEB1E170C9EE607A157B577F2DB064D212643487AEA684BB5B">>},
+ {<<"antidotec_pb">>, <<"FEA4286BEEF84E65EA27983E65AD8347016F4657306D468224309C44AD28521C">>}]}
+].
