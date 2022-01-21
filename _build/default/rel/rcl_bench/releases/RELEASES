@@ -1,9 +1,9 @@
 %% coding: utf-8
-[{release,"rcl_bench","0.1.0","12.2",
+[{release,"rcl_bench","0.1.0","12.0",
           [{rcl_bench,"0.1.0","./lib/rcl_bench-0.1.0"},
-           {kernel,"8.2","./lib/kernel-8.2"},
-           {stdlib,"3.17","./lib/stdlib-3.17"},
-           {crypto,"5.0.5","./lib/crypto-5.0.5"},
+           {kernel,"8.0","./lib/kernel-8.0"},
+           {stdlib,"3.15","./lib/stdlib-3.15"},
+           {crypto,"5.0","./lib/crypto-5.0"},
            {antidotec_pb,"0.2.9","./lib/antidotec_pb-0.2.9"},
            {antidote_pb_codec,"0.1.2","./lib/antidote_pb_codec-0.1.2"}],
           permanent}].

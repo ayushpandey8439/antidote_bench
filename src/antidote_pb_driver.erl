@@ -8,9 +8,9 @@
   random_seed/0, shutdown_on_error/0, crash_is_recoverable/0]).
 % generic config
 mode() -> {ok, {rate, max}}.
-concurrent_workers() -> {ok, 8}.
+concurrent_workers() -> {ok, 16}.
 duration() -> {ok, 1}.
-operations() -> {ok, [{inc_txn, 2}, {read_only_txn, 8}]}.
+operations() -> {ok, [{inc_txn, 2},{read_only_txn, 8}]}.
 %operations() -> {ok, [{txn, 1}]}.
 test_dir() -> {ok, "tests"}.
 key_generator() -> {ok, {pareto_int, 1000}}.
@@ -21,12 +21,19 @@ shutdown_on_error() -> false.
 crash_is_recoverable() -> true.
 
 antidote_pb_port() -> 8087.
-antidote_pb_ip() -> '127.0.0.1'.
+antidote_pb_ip() -> '192.168.1.2'.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% end for transactions %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -define(BUCKET, <<"antidote_bench_bucket">>).
+
+-record(counter, {
+  value :: integer(),
+  increment :: integer()
+}).
+-opaque antidotec_counter() :: #counter{}.
+
 
 -record(state, {worker_id,
   time,
@@ -50,17 +57,17 @@ new(Id) ->
 
 run(inc_txn, KeyGen, _ValueGen, State=#state{pb_pid=Pid})->
   {ok, TxId} = antidotec_pb:start_transaction(Pid, ignore, [{static, true}]),
-  KeyInfo = {integer_to_list(KeyGen()), antidote_crdt_counter_pn, ?BUCKET},
-  Obj = antidotec_counter:increment(1, antidotec_counter:new()),
-  _ = antidotec_pb:update_objects(Pid, antidotec_counter:to_ops(KeyInfo, Obj), TxId),
-  {ok, State};
+  BoundObject = {integer_to_list(KeyGen()), antidote_crdt_counter_pn, ?BUCKET},
+  antidotec_pb:update_objects(Pid, [{BoundObject, increment, 1}], TxId),
+{ok, State};
 
 run(read_only_txn, KeyGen, _ValueGen, State=#state{pb_pid=Pid}) ->
   {ok, TxId} = antidotec_pb:start_transaction(Pid, ignore, [{static, true}]),
   Key = KeyGen(),
   Obj = {integer_to_list(Key), antidote_crdt_counter_pn, ?BUCKET},
   {ok, [R]} = antidotec_pb:read_objects(Pid, [Obj], TxId),
-  {ok, State}.
+%	 logger:error("Result ~p",[R]),
+{ok, State}.
 
 
 terminate(_, State) ->
