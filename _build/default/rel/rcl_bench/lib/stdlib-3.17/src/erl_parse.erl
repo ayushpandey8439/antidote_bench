@@ -1284,7 +1284,7 @@ modify_anno1(E, Ac, _Mf) when not is_tuple(E), not is_list(E) -> {E,Ac}.
 
 %% vim: ft=erlang
 
--file("/build/erlang/src/otp/bootstrap/lib/parsetools/include/yeccpre.hrl", 0).
+-file("/root/deb/otp/bootstrap/lib/parsetools/include/yeccpre.hrl", 0).
 %%
 %% %CopyrightBegin%
 %%

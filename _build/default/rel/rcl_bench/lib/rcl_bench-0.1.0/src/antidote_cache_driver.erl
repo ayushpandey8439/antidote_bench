@@ -38,20 +38,21 @@ random_seed() -> {ok, {1,4,3}}.
 
 shutdown_on_error() -> true.
 
+-define(BUCKET, <<"antidote_bench_bucket">>).
 
 
 %% ========================
 %% Benchmark implementation
 
 new(Id) ->
-	Node = list_to_atom("antidote@192.168.1.4"),
+	Node = list_to_atom("antidote@192.168.1.2"),
 	State = #{id => Id, node => Node, module=> antidote},
     {ok, State}.
 
 run(update, KeyGen, _ValueGen, #{node:=Node, module:=Mod} = State) ->
  	Key = list_to_atom(integer_to_list(KeyGen())),
 	Type = antidote_crdt_counter_pn,
-	Object = {Key, Type},
+	Object = {Key, Type, ?BUCKET},
 	Update = {Object, increment, 1},
 	_RESULT = rpc:call(Node, Mod, update_objects, [ignore, [], [Update]]),
 	io:format("."),
@@ -60,7 +61,7 @@ run(update, KeyGen, _ValueGen, #{node:=Node, module:=Mod} = State) ->
 run(read, KeyGen, _ValueGen,  #{node:=Node, module:=Mod} = State) ->
 	Key = list_to_atom(integer_to_list(KeyGen())),
    	Type = antidote_crdt_counter_pn,
-        Object = {Key, Type},
+        Object = {Key, Type, ?BUCKET},
 	_RESULT = rpc:call(Node, Mod, read_objects, [ignore, [], [Object]]),
 	io:format("."),
 	{ok, State}.
