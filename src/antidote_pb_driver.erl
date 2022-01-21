@@ -21,7 +21,7 @@ shutdown_on_error() -> false.
 crash_is_recoverable() -> true.
 
 antidote_pb_port() -> 8087.
-antidote_pb_ip() -> '192.168.1.2'.
+antidote_pb_ip() -> 'antidote-dc1.local'.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% end for transactions %%%%%%%%%%%%%%%%%%%%%%%%%%%%
