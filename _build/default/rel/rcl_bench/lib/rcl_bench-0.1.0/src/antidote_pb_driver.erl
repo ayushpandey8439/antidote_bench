@@ -9,7 +9,7 @@
 % generic config
 mode() -> {ok, {rate, max}}.
 concurrent_workers() -> {ok, 16}.
-duration() -> {ok, 1}.
+duration() -> {ok, 5}.
 operations() -> {ok, [{inc_txn, 2},{read_only_txn, 8}]}.
 %operations() -> {ok, [{txn, 1}]}.
 test_dir() -> {ok, "tests"}.
